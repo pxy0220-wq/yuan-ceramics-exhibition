@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1E1510">
+<title>草原与窑火 · 元代陶瓷中的蒙古生活习俗反映</title>
+<meta name="description" content="草原与窑火——元代陶瓷中的蒙古生活习俗反映。六件器物，三个动作：握、围坐、俯看。3D 线上展厅与 2D 档案。">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="is-intro is-loading">
+
+<div id="stage" aria-hidden="true">
+  <canvas id="scene"></canvas>
+  <div id="vignette"></div>
+  <div id="grain" aria-hidden="true"></div>
+
+  <header id="hud-top">
+    <div class="brand">
+      <p class="brand-kicker">GRASSLAND &amp; KILN FIRE / 元代陶瓷档案</p>
+      <h1><span id="hall-no">序厅</span> <em id="hall-title">从草原来</em></h1>
+    </div>
+    <div class="hud-actions">
+      <button id="btn-credits" class="hud-btn hud-btn--ghost" type="button">素材授权</button>
+      <button id="btn-full" class="hud-btn" type="button">全屏</button>
+      <button id="btn-sound" class="hud-btn" type="button" aria-pressed="false">声音：关</button>
+      <button id="btn-2d" class="hud-btn hud-btn--red" type="button">2D 展板模式</button>
+    </div>
+  </header>
+
+  <div id="hall-banner" class="hall-banner" aria-hidden="true">
+    <p id="hb-kicker">第一展厅</p>
+    <h2 id="hb-title">饮与携</h2>
+    <p id="hb-sub">手中的草原</p>
+  </div>
+
+  <div id="hud-bottom">
+    <div class="hud-bottom-left">
+      <p class="hint" id="scene-hint">拖动空白处看四周 · 点击资料夹翻档案</p>
+      <p class="scene-index" id="scene-index">序厅 / PROLOGUE</p>
+    </div>
+    <div class="route-wrap" aria-label="参观路线">
+      <div id="route" class="route"></div>
+      <p class="route-caption" id="route-caption">参观路线 · 点击圆点跳转</p>
+    </div>
+    <div class="next-wrap">
+      <button id="btn-prev" class="prev-btn" type="button" aria-label="上一站">← <span>上一站</span></button>
+      <button id="btn-next" class="next-btn" type="button">下一站 <small>沿参观路线</small></button>
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<div id="intro" class="intro" role="dialog" aria-modal="true" aria-labelledby="intro-title">
+  <div class="intro-paper">
+    <svg class="intro-thread" viewBox="0 0 700 240" aria-hidden="true">
+      <path d="M-30,60 C120,10 210,210 380,142 S580,32 740,104" fill="none" stroke="currentColor" stroke-width="1.2"/>
+      <circle cx="380" cy="142" r="3.2" fill="currentColor"/>
+    </svg>
+
+    <div class="intro-folder">
+      <div class="folder-tab">总档案 / 六件器物 · 三座展厅</div>
+      <div class="folder-sheet">
+        <p class="eyebrow">A CERAMIC ARCHIVE &nbsp;·&nbsp; YUAN DYNASTY</p>
+        <h1 id="intro-title">草原与窑火</h1>
+        <p class="intro-subtitle">元代陶瓷中的蒙古生活习俗反映</p>
+        <p class="intro-en">GRASSLAND &amp; KILN FIRE &nbsp;/&nbsp; MONGOL LIFE IN YUAN CERAMICS</p>
+        <div class="intro-rule"></div>
+        <p class="intro-line">六件器物 · 三个动作：握、围坐、俯看</p>
+        <p class="intro-object">器物的形状，往往先于纹饰，记录了一种生活方式。</p>
+
+        <div class="intro-actions">
+          <button id="btn-enter" class="enter-btn" type="button">进入展览 <span>→</span></button>
+        </div>
+        <p class="intro-note">建议全屏 · 声音默认关闭 · 可随时切换 2D 展板 · 完整参观约 8–10 分钟</p>
+      </div>
+      <div class="stamp" aria-hidden="true">草原与窑火<br><small>元代陶瓷</small></div>
+    </div>
+  </div>
+  <button id="btn-skip-intro" class="skip-intro" type="button">跳过开场</button>
+</div>
+
+<div id="index-view" class="index-view" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="index-title">
+  <div class="index-bar">
+    <div class="index-bar-left">
+      <span class="mono">2D ARCHIVE / 目录</span>
+      <h1 id="index-title">草原与窑火</h1>
+    </div>
+    <div class="index-bar-actions">
+      <button id="btn-index-credits" class="archive-btn" type="button">素材授权</button>
+      <button id="btn-index-3d" class="archive-btn archive-btn--red" type="button">返回 3D</button>
+    </div>
+  </div>
+
+  <div class="index-scroll">
+    <div class="index-hero">
+      <p class="eyebrow">GRASSLAND &amp; KILN FIRE / A CERAMIC ARCHIVE</p>
+      <h2>六件器物，三种动作</h2>
+      <p>握 · 围坐 · 俯看。器物的形状，<br class="br-mobile">往往先于纹饰，记录了一种生活方式。</p>
+      <div class="index-actions-chips" aria-hidden="true">
+        <span>握 / 饮与携</span><span>围坐 / 食与礼</span><span>俯看 / 储与色</span>
+      </div>
+    </div>
+    <div id="index-list" class="index-list"></div>
+    <div class="index-footer">
+      <p>本展为课堂汇报制作，非正式出版。3D 模型为简化示意，不是文物扫描或复原。</p>
+      <button id="btn-index-credits-2" class="text-btn" type="button">查看素材授权</button>
+    </div>
+  </div>
+</div>
+
+<div id="archive" class="archive" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="archive-title">
+  <div class="archive-bar">
+    <div class="archive-bar-left">
+      <span class="mono" id="archive-bar-index">ARCHIVE 01 / 06</span>
+      <span class="archive-bar-title" id="archive-bar-title">元青花龙纹高足杯</span>
+    </div>
+    <div class="archive-bar-actions">
+      <button id="btn-archive-index" class="archive-btn" type="button">目录</button>
+      <button id="btn-close-archive" class="archive-btn archive-btn--red" type="button">返回 3D</button>
+    </div>
+  </div>
+  <div class="archive-scroll" id="archive-scroll">
+    <div id="archive-content"></div>
+  </div>
+</div>
+
+<div id="credits" class="credits" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="credits-title">
+  <div class="credits-bar">
+    <span class="mono">CREDITS / 素材授权</span>
+    <button id="btn-close-credits" class="archive-btn" type="button">关闭</button>
+  </div>
+  <div class="credits-scroll">
+    <div id="credits-content" class="credits-content"></div>
+  </div>
+</div>
+
+<audio id="ambient-1" src="assets/audio/01_gallery_room_tone.m4a" loop preload="none"></audio>
+<audio id="ambient-2" src="assets/audio/02_kiln_fire.m4a" loop preload="none"></audio>
+<audio id="ambient-3" src="assets/audio/03_grassland_wind.m4a" loop preload="none"></audio>
+
+<noscript>
+  <div style="position:fixed;inset:0;background:#EAD5BC;color:#1E1510;padding:40px;z-index:999">
+    <h1>草原与窑火</h1>
+    <p>本展需要 JavaScript 才能显示 3D 展廊。请启用 JavaScript，或直接查看素材包中的图片与文档。</p>
+  </div>
+</noscript>
+
+<script src="assets/three.min.js"></script>
+<script src="js/textures.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
